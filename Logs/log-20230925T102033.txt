@@ -1,0 +1,1 @@
+2023-09-25 10:20:39,560 INFO t.TestBase [RegistrationTests.java:18] - registrationPositiveTest starts with skrydj_1239@mail.com& Ll12345$
