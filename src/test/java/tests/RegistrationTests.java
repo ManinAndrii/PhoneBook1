@@ -1,8 +1,8 @@
 package tests;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 public class RegistrationTests extends TestBase{
@@ -17,6 +17,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().submitRegistration();
         logger.info("registrationPositiveTest starts with " + email + " & " + password);
         Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
+        app.getHelperUser().logout();
     }
     //
 //    @Test
@@ -48,6 +49,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm("skrydj_" + i + "mail.com", "Ll12345$");
         app.getHelperUser().submitRegistration();
+        Assert.assertTrue(app.getHelperUser().isAlertPresent());
 
     }
 //    @Test
@@ -79,8 +81,11 @@ public class RegistrationTests extends TestBase{
 public void registrationNegativeTestWrongPassword(){
     int i = (int)(System.currentTimeMillis()/1000)%3600;
     app.getHelperUser().openLoginRegistrationForm();
-    app.getHelperUser().fillLoginRegistrationForm("skrydj_" + i + "mail.com", "Ll12345");
+    app.getHelperUser().fillLoginRegistrationForm("skrydj_" + i + "@mail.com", "Ll12345");
     app.getHelperUser().submitRegistration();
+    Assert.assertTrue(app.getHelperUser().isAlertPresent());
 
 }
+
+
 }

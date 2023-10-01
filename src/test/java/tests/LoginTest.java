@@ -1,11 +1,12 @@
 package tests;
 
-
-import models.User;
+import manager.NGListener;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
+@Listeners(NGListener.class)
 public class LoginTest extends TestBase{
 
 //    WebDriver wd;
@@ -42,6 +43,7 @@ public class LoginTest extends TestBase{
         app.getHelperUser().pause(3000);
 //        Assert.assertTrue(wd.findElements(By.tagName("button")).size() > 0);
         Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
+        app.getHelperUser().logout();
     }
 
 
