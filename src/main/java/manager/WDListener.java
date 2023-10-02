@@ -36,7 +36,7 @@ public class WDListener extends AbstractWebDriverEventListener {
         int i = (int)System.currentTimeMillis()/1000%3600;
         String link = "src/test/screenshots/screenshot -" +i + ".png";
         HelperBase helperBase = new HelperBase(driver);
-       // helperBase.takeScreenShot(link);
+        helperBase.takeScreenShot(link);
         logger.info("Here is the path to screenshot with error -->" + link);
     }
 }

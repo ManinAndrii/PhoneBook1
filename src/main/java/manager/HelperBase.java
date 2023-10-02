@@ -49,7 +49,7 @@ public class HelperBase {
         }
     }
 
-    /*public void takeScreenShot(String link){
+    public void takeScreenShot(String link){
         File tmp = ((TakesScreenshot)wd).getScreenshotAs(OutputType.FILE);
         File screenshot = new File(link);
 
@@ -60,5 +60,5 @@ public class HelperBase {
         }
 
     }
-*/
+
 }
