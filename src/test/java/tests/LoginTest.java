@@ -1,6 +1,8 @@
 package tests;
 
 import manager.NGListener;
+import manager.ProviderData;
+import models.User;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -18,7 +20,7 @@ public class LoginTest extends TestBase{
 //        wd.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 //    }
 
-    @Test
+    @Test(groups = {"positive"})
     public void loginPositiveTest(){
 
 
@@ -44,11 +46,57 @@ public class LoginTest extends TestBase{
 //        Assert.assertTrue(wd.findElements(By.tagName("button")).size() > 0);
         Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
         app.getHelperUser().logout();
+
+    }
+    @Test(groups = {"positive"})
+    public void loginPositiveTestProperties(){
+
+
+        // open login form
+        app.getHelperUser().openLoginRegistrationForm();
+
+        app.getHelperUser().fillLoginRegistrationForm(app.getEmail(), app.getPassword());
+        // click on button login
+        app.getHelperUser().submitLogin();
+        // assert
+        app.getHelperUser().pause(3000);
+        Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
+        app.getHelperUser().logout();
+
     }
 
+    @Test(groups = {"positive"})
+    public void loginPositiveTestModel(){
 
+        User user = User.builder()
+                .email("skrydj1984@mail.com")
+                .password("Ll12345$")
+                .build();
+        // open login form
+        app.getHelperUser().openLoginRegistrationForm();
+        // fill login form
+        app.getHelperUser().fillLoginRegistrationForm(user.getEmail(), user.getPassword());
+        // click on button login
+        app.getHelperUser().submitLogin();
+        // assert
+        app.getHelperUser().pause(3000);
+        Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
+    }
 
-    @Test
+    @Test(groups = {"positive"}, dataProvider = "userDTO", dataProviderClass = ProviderData.class)
+    public void loginPositiveUserDTO(User user){
+        // open login form
+        app.getHelperUser().openLoginRegistrationForm();
+        // fill login form
+        app.getHelperUser().fillLoginRegistrationForm(user.getEmail(), user.getPassword());
+        // click on button login
+        app.getHelperUser().submitLogin();
+        // assert
+        app.getHelperUser().pause(3000);
+        Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
+    }
+
+    @Test(groups = {"negative","smoke"})
     public void loginNegativeTestWrongEmail(){
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm("skrydj1984mail.com", "Ll12345$");
@@ -76,7 +124,7 @@ public class LoginTest extends TestBase{
 //        pause(3000);
 //        Assert.assertTrue(isAlertPresent());
 //    }
-    @Test
+    @Test(groups = {"negative"})
         public void loginNegativeTestWrongPassword(){
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm("skrydj1984@mail.com", "Ll12345");

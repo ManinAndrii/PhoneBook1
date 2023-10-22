@@ -1,13 +1,22 @@
 package tests;
 
+import manager.ProviderData;
+import models.User;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class RegistrationTests extends TestBase{
 
-    @Test
+    @BeforeMethod(alwaysRun = true)
+    public void precondition(){
+        if(app.getHelperUser().isLogged()) {
+             app.getHelperUser().logout();
+        }    }
+
+    @Test(groups = {"positive"})
     public void registrationPositiveTest() {
         int i = (int)(System.currentTimeMillis()/1000)%3600;
         String email = "skrydj_" + i + "@mail.com";
@@ -18,8 +27,19 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().submitRegistration();
         logger.info("registrationPositiveTest starts with " + email + " & " + password);
         Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
-        app.getHelperUser().logout();
+
     }
+    @Test(groups = {"positive"}, dataProvider = "registrationCSV", dataProviderClass = ProviderData.class)
+    public void registrationPositiveTestCSV(User user) {
+        String email = user.getEmail();
+        String password = user.getPassword();
+        app.getHelperUser().openLoginRegistrationForm();
+        app.getHelperUser().fillLoginRegistrationForm(email, password);
+        app.getHelperUser().submitRegistration();
+        logger.info("registrationPositiveTest starts with:" + email + " & " + password);
+        Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
+    }
+
     //
 //    @Test
 //    public void registrationPositiveTest(){
@@ -44,7 +64,7 @@ public class RegistrationTests extends TestBase{
 //        pause(3000);
 //        Assert.assertTrue(wd.findElements(By.tagName("button")).size() > 0);
 //    }
-    @Test
+    @Test(groups = {"negative"})
     public void registrationNegativeTestWrongEmail(){
         int i = (int)(System.currentTimeMillis()/1000)%3600;
         app.getHelperUser().openLoginRegistrationForm();
@@ -78,7 +98,7 @@ public class RegistrationTests extends TestBase{
 //
 //
 //   }
-@Test
+@Test(groups = {"negative"})
 public void registrationNegativeTestWrongPassword(){
     int i = (int)(System.currentTimeMillis()/1000)%3600;
     app.getHelperUser().openLoginRegistrationForm();

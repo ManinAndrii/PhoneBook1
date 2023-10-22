@@ -10,17 +10,18 @@ import java.util.concurrent.TimeUnit;
 
 public class AddNewContactTests extends TestBase{
 
-@BeforeMethod
+@BeforeMethod(alwaysRun = true)
     public void precondition(){
         if(!app.getHelperUser().isLogged()) app.getHelperUser().login(
-            User.builder()
-                    .email("skrydj1984@mail.com")
-                    .password("Ll12345$")
-                    .build());
+           // User.builder()
+            //        .email("skrydj1984@mail.com")
+            //        .password("Ll12345$")
+             //       .build());
+        app.getEmail(), app.getPassword());
 
 }
 
-@Test(invocationCount = 1)
+@Test(invocationCount = 2 , groups = {"positive","smoke"})
     public void addNewContactPositive(){
     int i = (int)(System.currentTimeMillis()/1000)%3600;
     Contact contact = Contact.builder()
