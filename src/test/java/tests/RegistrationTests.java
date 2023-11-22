@@ -26,7 +26,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().fillLoginRegistrationForm(email, password);
         app.getHelperUser().submitRegistration();
         logger.info("registrationPositiveTest starts with " + email + " & " + password);
-        Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
+       Assert.assertTrue(app.getHelperUser().isElementPresent(By.tagName("button")));
 
     }
     @Test(groups = {"positive"}, dataProvider = "registrationCSV", dataProviderClass = ProviderData.class)
